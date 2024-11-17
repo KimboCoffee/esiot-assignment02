@@ -1,0 +1,17 @@
+#platformIO
+*.pio
+*/.browse.c_cpp.db*
+*/c_cpp_properties.json
+*/launch.json
+*/ipch
+
+#report and LaTex build files
+*.pdf
+*.png
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.gz
+*.toc

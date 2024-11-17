@@ -1,5 +1,5 @@
 #platformIO
-*/.vscode/*
+project/smart_waste_disposal/.vscode/*
 project/*/README
 
 #report and LaTex build files

@@ -58,6 +58,8 @@
 	It can be realized using a simple analog temperature sensor. These devices are based on the fact that temperature increases or decreases the electricity flow through them, and an analog signal is returned to the board according to the temperature value. Starting from this analog value, knowing voltage and temperature ranges of the devices (which have to be read on technical specs sheets) the measure can be easily obtained via some mathematical formula. 
 	
 	\subsection{Operator Dashboard}
+	The operator dashboard is meant to be accessed only by operators, and it has to be connected to the Arduino UNO Board.\newline
+	In our system, it will be hosted on a separate general purpose computer, in which a program will run to handle the dashboard's features. Connection will be achieved via serial communication, exploiting the USB connection offered by Arduino UNO Board.
 	
 	\section{Software}
 	

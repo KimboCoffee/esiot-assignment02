@@ -24,8 +24,28 @@
 	\tableofcontents
 	
 	\chapter{Domain Analysis}
+	The domain analysis, working on an embedded system, can be conducted on two levels: hardware and software.
 	
 	\section{Hardware}
+	Besides the main container, which is by no means an active hardware device, some main components can be highlighted from a functional standpoint:
+	
+	\subsection{User Detector}
+	The user detector has the main function of revealing when a user is nearby. This is needed to wake the system from low power consumption mode when a potential user approaches the system.\newline
+	It is realized with an infrared passive sensor (PIR), whose functioning is based on infrared variations in the environment. These devices, powered with a tension, return a digital output on a pin when they detect abrupt infrared variations. In \href{https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor/}{the variant used} for this project, there are two knobs on the back to regulate sensitivity and delay time, two key factors to detect changes. Due to the fact that these devices work on variations of infrared instead of absolute values, a calibration time on system startup has to be taken into account.
+	
+	\subsection{Waste Level Detector}
+	
+	\subsection{Door}
+	
+	\subsection{Open and Close buttons}
+	
+	\subsection{Red and Green LEDs}
+	
+	\subsection{User Screen}
+	
+	\subsection{Temperature Sensor}
+	
+	\subsection{Operator Dashboard}
 	
 	\section{Software}
 	

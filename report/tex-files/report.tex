@@ -86,6 +86,14 @@
 	In this scheme, \emph{Working} should be interpreted as any state of the main FSM, to which a signal is sent when entering the \emph{NonWorking} state. In this way, the main FSM can regulate its own behavior according to the state signaled by this sensor. 
 	
 	\subsubsection{Level of Waste Monitor FSM}
+	This sensor, similarly to the temperature sensor, can be modeled with an independent FSM that can signal exceptions to the main FSM. 
+	\begin{figure}[H]
+		\centering{}
+		\includegraphics[scale=0.60]{img/waste-level-monitor-FSM.png}
+		\caption{FSM for the waste level monitor}
+		\label{img:waste-level-FSM}
+	\end{figure}
+	Like in the previous scheme, \emph{Working} refers to any state of the main FSM, and \emph{NonWorking} refers to a generic state in which an exception is received and the normal functions of the system are suspended. Also for this feature, signals between distinct FSMs regulate the system overall behavior.
 	
 	\subsubsection{Main FSM}
 	

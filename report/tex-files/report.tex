@@ -42,8 +42,11 @@
 	This can be easily obtained thanks to an electrical motor, rotating to open or close a door. Rather than using DC motors, in which the angle can't be specified, or stepper motors, that offer a fine grained rotating precision but are very expensive, we have chosen to use a servo motor. It has a range of about 180°, which is enough if applied to a door's control, and it offer the possibility to control the angle of its rotation in an easy way. For it to work properly, a servo motor requires that electrical pulses of a certain duration (corresponding to the angle) are sent to it at a fixed frequency, so that it is oriented to meet the desired angle. Particular attention has to be paid to how much the door resists to rotation: electrical consumption here depends on this factor, so having a door that weights too much can damage the UNO Board.
 	
 	\subsection{Open and Close buttons}
+	These are two simple tactile buttons linked to the UNO Board.\newline
+	Their functioning is based on the fact that they receive power from the board, and transfer it back to it via some pin when they are pressed. In order to have 0 rather than VCC as the default value, a pull down resistor - 10KOhm in our case - is needed to connect the button to the ground.
 	
 	\subsection{Red and Green LEDs}
+	
 	
 	\subsection{User Screen}
 	

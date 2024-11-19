@@ -18,7 +18,7 @@
 	\maketitle
 	
 	\begin{abstract}
-		The main goal of this project is to realize a Smart Waste Disposal Container. It will be based on an Arduino UNO Board linked to a computer via serial communication. In this system, some hardware devices will be dedicated to user interaction, opening or closing the container, or exchanging some basic information via a screen. Then, a subsystem will be dedicated to waste monitoring, revealing when the container is too full or its content is too hot, blocking user interaction. To solve these problems, an operator will have to intervene via the computer to empty the container or to signal that the temperature situation is now under control.
+		The main goal of this project is to realize a Smart Liquid Waste Disposal Container. It will be based on an Arduino UNO Board linked to a computer via serial communication. In this system, some hardware devices will be dedicated to user interaction, opening or closing the container, or exchanging some basic information via a screen. Then, a subsystem will be dedicated to waste monitoring, revealing when the container is too full or its content is too hot, blocking user interaction. To solve these problems, an operator will have to intervene via the computer to empty the container or to signal that the temperature situation is now under control.
 	\end{abstract}
 	
 	\tableofcontents
@@ -34,6 +34,8 @@
 	It is realized with an infrared passive sensor (PIR), whose functioning is based on infrared variations in the environment. These devices, powered with a tension, return a digital output on a pin when they detect abrupt infrared variations. In \href{https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor/}{the variant used} for this project, there are two knobs on the back to regulate sensitivity and delay time, two key factors to detect changes. Due to the fact that these devices work on variations of infrared instead of absolute values, a calibration time on system startup has to be taken into account.
 	
 	\subsection{Waste Level Detector}
+	The waste level detector has the vital function of detecting the amount of waste introduced in the container. This has to be monitored so that a maximum level is never exceeded.\newline
+	It can be realized thanks to a proximity sensor, which detects how close the level of waste is to the top of the container. When this distance goes below a certain defined threshold, it means the container is too full. For our project, an \href{https://docs.google.com/document/d/1Y-yZnNhMYy7rwhAgyL_pfa39RsB-x2qR4vP8saG73rE/edit?tab=t.0}{ultrasound proximity sensor} is used rather than a light proximity sensor. This because it allows greater precision on shorter distances (because of how much sound is slower than light) and because it is less sensitive of orientation of the measured object. This device is powered by a trigger impulse, which produces a sound that is captured back and produces an echo impulse. Measuring the time elapsed between these two signals, and knowing - even approximately - the speed of sound through air a measure of distance can be obtained.
 	
 	\subsection{Door}
 	

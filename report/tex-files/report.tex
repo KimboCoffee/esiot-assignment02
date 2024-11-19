@@ -63,7 +63,7 @@
 	
 	\begin{figure}[H]
 		\centering{}
-		\includegraphics{img/HW-domain.png}
+		\includegraphics[scale=0.50]{img/HW-domain.png}
 		\caption{Schematic disposition of hardware devices, from the \href{https://docs.google.com/document/d/1iFXGmo7RVZMpJ5bxUN5ms_qFqg2B-wecRc0sfas9rQ4/edit?usp=sharing}{professor's assignment}}
 		\label{img:hw-domain}
 	\end{figure}
@@ -75,11 +75,19 @@
 	This is the core unit of the device, being the one that directly controls and regulates the behavior of the entire system.\newline
 	The main constraint in terms of technologies is that it has to be programmed in C++ with the Wiring framework, since it will run on an Arduino UNO Board. Trying to dissect the system's behavior, it can easily be decomposed in three main Finite States Machines that run in parallel.
 	
-	\subsubsection{Main FSM}
-	
 	\subsubsection{Temperature Monitor FSM}
+	The temperature monitor, with its behavior, can be modeled as a Finite State Machine. It behaves regardless of the state in which the other parts of the systems are, signaling whenever an exception happens.
+	\begin{figure}[H]
+		\centering{}
+		\includegraphics[scale=0.60]{img/temp-monitor-FSM.png}
+		\caption{FSM for the temperature monitor}
+		\label{img:temp-monitor-FSM}
+	\end{figure}
+	In this scheme, \emph{Working} should be interpreted as any state of the main FSM, to which a signal is sent when entering the \emph{NonWorking} state. In this way, the main FSM can regulate its own behavior according to the state signaled by this sensor. 
 	
 	\subsubsection{Level of Waste Monitor FSM}
+	
+	\subsubsection{Main FSM}
 	
 	\subsection{Operator Dashboard Application}
 	The Operator Dashboard Application is a software module running on a general purpose PC. It's supposed to show a Graphical User Interface to the Operator, a qualified user that can restore the normal functioning of the container, emptying it or resetting it after a critical temperature situation.\newline

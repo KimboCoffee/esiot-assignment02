@@ -1,8 +1,10 @@
 import serial
 
 class MessageHandler:
-    def __init__(self, port, baudrate):
-        self.device = serial.Serial(port, baudrate=baudrate)
+    def __init__(self):
+        self.baudrate = 9600
+        self.port = "COM4"
+        self.device = serial.Serial(port, baudrate)
 
     def send(self, msg):
         self.device.write(msg)

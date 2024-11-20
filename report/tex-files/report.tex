@@ -96,6 +96,14 @@
 	Like in the previous scheme, \emph{Working} refers to any state of the main FSM, and \emph{NonWorking} refers to a generic state in which an exception is received and the normal functions of the system are suspended. Also for this feature, signals between distinct FSMs regulate the system overall behavior.
 	
 	\subsubsection{Main FSM}
+	The main life cycle of the system can be described as a separate FSM.
+	\begin{figure}[H]
+		\centering{}
+		\includegraphics[scale=0.60]{img/main-FSM.png}
+		\caption{FSM for the main system life cycle}
+		\label{img:main-FSM}
+	\end{figure}
+	In this FSM, \emph{SensorException} is any kind of signal that is sent from a sensor to the system to stop its default life cycle. On the other hand, \emph{DashboardProblemSolved} is the corresponding dashboard operation that restores the system's functions.
 	
 	\subsection{Operator Dashboard Application}
 	The Operator Dashboard Application is a software module running on a general purpose PC. It's supposed to show a Graphical User Interface to the Operator, a qualified user that can restore the normal functioning of the container, emptying it or resetting it after a critical temperature situation.\newline

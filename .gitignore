@@ -1,7 +1,6 @@
 #platformIO
-project/smart_waste_disposal/.vscode/*
-project/smart_waste_disposal/.pio/*
-project/*/README
+project/arduino/smart_waste_disposal/.vscode/*
+project/arduino/smart_waste_disposal/.pio/*
 
 #report and LaTex build files
 *.pdf

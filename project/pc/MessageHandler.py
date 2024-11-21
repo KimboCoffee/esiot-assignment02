@@ -1,19 +1,23 @@
 import serial
 
 class Message:
-    def __init__(self, temp, level, exceptionType = 0):
+    def __init__(self, temp, tempException, level, levelException):
         self.temp = temp
+        self.tempException = tempException
         self.level = level
-        self.exceptionType = exceptionType
+        self.levelException = levelException
 
     def getTemp(self):
         return self.temp
     
+    def getExceptionType(self):
+        return self.tempException
+    
     def getLevel(self):
         return self.level
-    
-    def getExceptionType(self):
-        return self.exceptionType
+
+    def getLevelException(self):
+        return self.levelException
 
 class MessageHandler:
     def __init__(self):
@@ -25,6 +29,9 @@ class MessageHandler:
         self.device.write(text)
 
     def read(self):
-        #metodo che legge finché non trova "END", e poi restituisce un Message che contiene tutte le info
-        self.device.read()
-        return 0
+        strs = {"", "", "", ""}
+        for i in range(4):
+            strs[i] = self.device.read()
+
+    def getPeriod(self):
+        return self.device.read()

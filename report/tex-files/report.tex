@@ -122,7 +122,7 @@
 	The computer system is here implemented in Python, since it allows to simply create user interfaces and serial communication.\newline
 	Particularly, \href{https://docs.python.org/3/library/tkinter.html}{the tkinter interface package} is used for producing the user interface. This serves as an interface for the Tcl/Tk GUI toolkit, and simplifies the development process behind GUIs.\newline
 	Serial communication, on the other hand, is achieved thanks to \href{https://pyserial.readthedocs.io/en/latest/}{the serial module of the pyserial library}. This module tackles the low-level parts of the serial communication implementation, and allows the programmer to deal with higher level matters.\newline
-	For what concerns implementing choices, a simple class used as a message handler was realized to communicate with the Arduino UNO Board. Then, a main component is used to develop the GUI and exploits the message handler to cooperate with the external embedded system.
+	From an implementing standpoint, the System consists on three main modules: a Message Handler, the App and the GUI. The Message Handler, based on serial communication, reads the period at startup, and then each period it polls for a fixed-structure message containing the temperature, the filling level, and two flags eventually signaling the respective sensor exceptions. This is then processed by the App, that handles the information to update the GUI accordingly.
 	
 	\chapter{System Demonstration}
 	

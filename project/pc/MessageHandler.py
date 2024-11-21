@@ -10,7 +10,7 @@ class Message:
     def getTemp(self):
         return self.temp
     
-    def getExceptionType(self):
+    def getTempException(self):
         return self.tempException
     
     def getLevel(self):

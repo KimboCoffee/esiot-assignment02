@@ -14,4 +14,4 @@ project/arduino/smart_waste_disposal/.pio/*
 *.toc
 
 #python related files
-*/__pycache__/*
+project/pc/__pycache__/*

@@ -122,7 +122,11 @@
 	The computer system is here implemented in Python, since it allows to simply create user interfaces and serial communication.\newline
 	Particularly, \href{https://docs.python.org/3/library/tkinter.html}{the tkinter interface package} is used for producing the user interface. This package serves as an interface for the Tcl/Tk GUI toolkit, and simplifies the development process behind GUIs.\newline
 	Serial communication, on the other hand, is achieved thanks to \href{https://pyserial.readthedocs.io/en/latest/}{the serial module of the pyserial library}. This module tackles the low-level parts of the serial communication implementation, and allows the programmer to deal with higher level matters.\newline
-	From an implementing standpoint, the System consists on three main modules: a Message Handler, the App and the View. The Message Handler, based on serial communication, reads the period at startup, and then each period it polls for a fixed-structure message containing the temperature, a flag to signal an eventual temperature exception and an analogous pair of values for the waste level indicator. The message is then processed by the App, which extracts data to update the View accordingly.
+	From an implementing standpoint, the System consists on three main modules: a Message Handler, the App and the View. The App controls the application's flow, updating each period the View to correctly represent the data read by the Message Handler. In order to communicate with the Arduino board, a simple communication protocol is established.
+	\paragraph{Communication protocol}Each message contains 5 lines, representing distinct values.
+	\newline From Arduino towards the computer, the lines represent respectively the current period, the measured temperature, the eventual occurring of a temperature exception, the current waste level and the eventual occurring of a level exception.
+	\newline From the computer towards Arduino, the lines communicate whether the system is listening if a temperature reset was required and if the empty process is being activated. The other two lines are set at zero, leaving the message structure unaltered.
+	\newline Each cycle, the computer is the first one to print its values signaling presence, and the board answers. This is to prevent Arduino from communicating when there is no listener, since it could cause problems in term of synchronization (the Arduino Serial works as a buffer and old messages would fill it, meaning that the new reads would not be real-time).
 	
 	\chapter{System Demonstration}
 	

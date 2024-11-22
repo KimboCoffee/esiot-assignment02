@@ -3,10 +3,11 @@ import View
 import time
 
 gui = View.GUI()
-i = 0
-gui.mainMenu(i, i+1)
+msgHandler = MessageHandler.MessageHandler()
+gui.mainMenu(0,0)
 
 while True:
-    gui.update(i, i+1)
-    i = i+1
-    time.sleep(0.200)
+    msg = msgHandler.read()
+    if msg != None:
+        gui.update(msg.getTemp(), msg.getLevel())
+        time.sleep(float(msg.getPeriod()) / 1000)

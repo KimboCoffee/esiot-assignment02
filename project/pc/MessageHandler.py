@@ -1,11 +1,15 @@
 import serial
 
 class Message:
-    def __init__(self, temp, tempException, level, levelException):
-        self.temp = temp
-        self.tempException = tempException
-        self.level = level
-        self.levelException = levelException
+    def __init__(self, vals):
+        self.period = vals[0]
+        self.temp = vals[1]
+        self.tempException = vals[2]
+        self.level = vals[3]
+        self.levelException = vals[4]
+
+    def getPeriod(self):
+        return self.period
 
     def getTemp(self):
         return self.temp
@@ -29,9 +33,10 @@ class MessageHandler:
         self.device.write(text)
 
     def read(self):
-        strs = {"", "", "", ""}
-        for i in range(4):
-            strs[i] = self.device.read()
+        strs = ["", "", "", "", ""]
+        for i in range(5):
+            strs[i] = self.device.readline()
+        return Message(strs)
 
     def getPeriod(self):
-        return self.device.read()
+        return self.device.readline()

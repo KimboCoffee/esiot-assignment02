@@ -1,6 +1,7 @@
 #platformIO
 project/arduino/smart_waste_disposal/.vscode/*
 project/arduino/smart_waste_disposal/.pio/*
+project/arduino/smart_waste_disposal/.gitignore
 
 #report and LaTex build files
 *.pdf

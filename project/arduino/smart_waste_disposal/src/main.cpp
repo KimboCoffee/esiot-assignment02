@@ -2,23 +2,27 @@
 #include "temperature_sensor_impl.h"
 #include "led.h"
 #include "button_impl.h"
+#include "lcd_screen.h"
 
 #define TEMP_SENSOR A0
 #define GREEN_LED 12
 #define RED_LED 13
 #define OPEN_BUTTON 11
 #define CLOSE_BUTTON 10
+#define LCD_ADDRESS 0x27
+#define LCD_ROWS 4
+#define LCD_COLS 20
 
-Button *openButton;
-Button *closeButton;
+Screen *screen;
+int i;
 
 void setup() {
-  openButton = new ButtonImpl(OPEN_BUTTON);
-  closeButton = new ButtonImpl(CLOSE_BUTTON);
-  Serial.begin(9600);
+  screen = new LCDScreen(LCD_ADDRESS, LCD_ROWS, LCD_COLS);
+  screen->turnOn();
+  i = 0;
 }
 
 void loop() {
-  if (openButton->isPressed()) Serial.println("Open pressed");
-  if (closeButton->isPressed()) Serial.println("Close pressed");
+  i = (i + 1) % LCD_ROWS;
+  screen->println(i, "Hello World!");
 }

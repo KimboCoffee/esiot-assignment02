@@ -1,25 +1,24 @@
 #include <Arduino.h>
 #include "temperature_sensor_impl.h"
 #include "led.h"
+#include "button_impl.h"
 
-#define TEMP_SENS A0
+#define TEMP_SENSOR A0
 #define GREEN_LED 12
 #define RED_LED 13
+#define OPEN_BUTTON 11
+#define CLOSE_BUTTON 10
 
-Light *green;
-Light *red;
+Button *openButton;
+Button *closeButton;
 
 void setup() {
-  red = new Led(RED_LED);
-  green = new Led(GREEN_LED);
+  openButton = new ButtonImpl(OPEN_BUTTON);
+  closeButton = new ButtonImpl(CLOSE_BUTTON);
   Serial.begin(9600);
 }
 
 void loop() {
-  red->turn();
-  delay(500);
-  red->turn();
-  green->turn();
-  delay(500);
-  green->turn();
+  if (openButton->isPressed()) Serial.println("Open pressed");
+  if (closeButton->isPressed()) Serial.println("Close pressed");
 }

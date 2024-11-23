@@ -6,7 +6,7 @@ int period;
 void setup() {
   Serial.begin(9600);
   i = 0;
-  period = 1000;
+  period = 200;
 }
 
 void loop() {

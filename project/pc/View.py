@@ -2,6 +2,8 @@ from tkinter import *
 
 class GUI:
     def __init__(self):
+        self.isTempReset = 0
+        self.isContainerEmptied = 0
         self.root = Tk("Operator Dashboard")
         self.root.configure(
             height = self.root.winfo_screenheight() / 2,
@@ -11,11 +13,17 @@ class GUI:
         self.frame = Frame(self.root)
         self.frame.grid(row = 0, column = 0)
 
+    def wasTempReset(self):
+        return self.isTempReset
+    
+    def wasContainerEmptied(self):
+        return self.isContainerEmptied
+
     def tempReset(self):
-        print("Temperature reset")
+        self.isTempReset = 1
 
     def emptyContainer(self):
-        print("Container emptied")
+        self.isContainerEmptied = 1
 
     def mainMenu(self, temp, level):
         self.tempLabel = Label(self.frame, text=temp)
@@ -31,6 +39,8 @@ class GUI:
         self.root.update()
 
     def update(self, temp, level):
+        self.isTempReset = 0
+        self.isContainerEmptied = 0
         self.tempLabel.configure(text=temp)
         self.levelLabel.configure(text=level)
         self.root.update()

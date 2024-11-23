@@ -29,8 +29,9 @@ class MessageHandler:
         self.port = "COM4"
         self.device = serial.Serial(self.port, self.baudrate)
 
-    def send(self, text):
-        self.device.write(text)
+    def send(self, vals):
+        for val in vals:
+            self.device.write(val)
 
     def read(self):
         strs = ["", "", "", "", ""]

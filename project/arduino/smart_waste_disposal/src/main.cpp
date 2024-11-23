@@ -1,12 +1,15 @@
 #include <Arduino.h>
 
+#define OFFSET 11
+
 int i;
 int period;
 
 void setup() {
   Serial.begin(9600);
   i = 0;
-  period = 200;
+  period = 50;
+  for (int i=1; i<=2; i++) pinMode(i + OFFSET, OUTPUT);
 }
 
 void loop() {

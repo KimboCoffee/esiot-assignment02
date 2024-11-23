@@ -5,11 +5,6 @@ class GUI:
         self.isTempReset = 0
         self.isContainerEmptied = 0
         self.root = Tk("Operator Dashboard")
-        self.root.configure(
-            height = self.root.winfo_screenheight() / 2,
-            width = self.root.winfo_screenwidth() / 2
-        )
-        self.root.resizable = False
         self.frame = Frame(self.root)
         self.frame.grid(row = 0, column = 0)
 

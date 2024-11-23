@@ -29,9 +29,8 @@ class MessageHandler:
         self.port = "COM4"
         self.device = serial.Serial(self.port, self.baudrate)
 
-    def send(self, vals):
-        for val in vals:
-            self.device.write(val)
+    def send(self, val):
+        self.device.write(val)
 
     def read(self):
         strs = ["", "", "", "", ""]
@@ -41,3 +40,6 @@ class MessageHandler:
 
     def getPeriod(self):
         return self.device.readline()
+    
+    def clearBuf(self):
+        self.device.reset_input_buffer()

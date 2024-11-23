@@ -37,9 +37,6 @@ class MessageHandler:
         for i in range(5):
             strs[i] = self.device.readline()
         return Message(strs)
-
-    def getPeriod(self):
-        return self.device.readline()
     
     def clearBuf(self):
         self.device.reset_input_buffer()

@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "button_impl.h"
 
 #define DEBOUNCE_TIME 30

@@ -123,6 +123,7 @@
 	\newline Orienting the analysis more towards the devices that compose the system, each device can be represented as an object. This allows maximum flexibility for their behavior and their communication, and could also offer scalability to implement more complex solutions (for example, the temperature monitoring task could register multiple sensors to improve the quality of its measures).
 	
 	\subsection{Implementing Choices}
+	To implement the LCD Screen behavior, the \href{https://docs.arduino.cc/libraries/liquidcrystal-i2c/}{LiquidCrystal I2C library} was used. This library relies on I2C protocol to allow communication between the Arduino board and a LCD screen, providing a wrapper class to handle all its features without dealing with low level aspects of the protocol.
 	
 	\section{Computer System}
 	The computer system is here implemented in Python, since it allows to simply create user interfaces and serial communication.\newline

@@ -10,19 +10,22 @@ ServoDoor::ServoDoor(int pin) {
     this->pin = pin;
 }
 
+void ServoDoor::lock() {
+    this->motor->detach();
+}
+
+void ServoDoor::unlock() {
+    this->motor->attach(this->pin);
+}
+
 void ServoDoor::openForInsertion() {
-    this->set(OPEN_FOR_INSERTION);
+    this->motor->write(OPEN_FOR_INSERTION);
 }
 
 void ServoDoor::close() {
-    this->set(CLOSED);
+    this->motor->write(CLOSED);
 }
 
 void ServoDoor::openForEmptying() {
-    this->set(OPEN_FOR_EMPTYING);
-}
-
-void ServoDoor::set(int value) {
-    this->motor->attach(this->pin);
-    this->motor->write(value);
+    this->motor->write(OPEN_FOR_EMPTYING);
 }

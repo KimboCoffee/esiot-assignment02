@@ -7,12 +7,13 @@
 class ServoDoor : public Door {
     public:
         ServoDoor(int pin);
+        void lock();
+        void unlock();
         void openForInsertion();
         void close();
         void openForEmptying();
 
     private:
-        void set(int value);
         ServoTimer2 *motor;
         int pin;
 };

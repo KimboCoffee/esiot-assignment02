@@ -31,10 +31,14 @@ void setup() {
 }
 
 void loop() {
+  door->unlock();
   door->openForInsertion();
   delay(1000);
   door->close();
   delay(1000);
   door->openForEmptying();
+  delay(1000);
+  door->lock();
+  door->close();
   delay(1000);
 }

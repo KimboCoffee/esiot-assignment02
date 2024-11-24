@@ -6,6 +6,7 @@
 #include "pir_user_detector.h"
 #include "servo_door.h"
 #include "timer_impl.h"
+#include "sonar_level_gauge.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -18,6 +19,8 @@
 #define OPEN_BUTTON 11
 #define CLOSE_BUTTON 10
 #define DOOR 9
+#define LEVEL_ECHO 8
+#define LEVEL_TRIG 7
 #define USER_DETECTOR 2
 
 /*LCD settings*/
@@ -25,21 +28,15 @@
 #define LCD_ROWS 4
 #define LCD_COLS 20
 
-Door *door;
-TimerImpl* timer;
+SonarLevelGauge *levelGauge;
 
 void setup() {
-  door = new ServoDoor(DOOR);
-  timer = new TimerImpl(1000);
+  Serial.begin(9600);
+  levelGauge = new SonarLevelGauge(LEVEL_TRIG, LEVEL_ECHO);
 }
 
 void loop() {
-  door->unlock();
-  door->openForInsertion();
-  timer->waitForNextTick();
-  door->close();
-  timer->waitForNextTick();
-  door->openForEmptying();
-  timer->waitForNextTick();
-  door->lock();
+  Serial.print("Filling percentage: ");
+  Serial.println(levelGauge->getFillingPercentage());
+  delay(1000);
 }

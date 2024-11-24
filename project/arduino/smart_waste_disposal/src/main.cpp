@@ -7,6 +7,7 @@
 #include "servo_door.h"
 #include "timer_impl.h"
 #include "sonar_level_gauge.h"
+#include "dummy_task.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -28,15 +29,21 @@
 #define LCD_ROWS 4
 #define LCD_COLS 20
 
-SonarLevelGauge *levelGauge;
+DummyTask *t1;
+DummyTask *t2;
+TimerImpl *timer;
+int period;
 
 void setup() {
   Serial.begin(9600);
-  levelGauge = new SonarLevelGauge(LEVEL_TRIG, LEVEL_ECHO);
+  period = 100;
+  t1 = new DummyTask(10 * period);
+  t2 = new DummyTask(20 * period);
+  timer = new TimerImpl(period);
 }
 
 void loop() {
-  Serial.print("Filling percentage: ");
-  Serial.println(levelGauge->getFillingPercentage());
-  delay(1000);
+  timer->waitForNextTick();
+  t1->step(period);
+  t2->step(period);
 }

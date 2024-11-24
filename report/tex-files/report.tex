@@ -124,6 +124,7 @@
 	
 	\subsection{Implementing Choices}
 	To implement the LCD Screen behavior, the \href{https://docs.arduino.cc/libraries/liquidcrystal-i2c/}{LiquidCrystal I2C library} was used. This library relies on I2C protocol to allow communication between the Arduino board and a LCD screen, providing a wrapper class to handle all its features without dealing with low level aspects of the protocol.
+	\newline The PIR user detector is connected to pin 2. This because pin 2 allows interrupts by default, and it comes in handy when the system goes in deep sleep state. Indeed, the only way to wake up the Arduino UNO board from deep sleep is through interrupts. This means that interrupts are not used in the system default behavior, but an empty routine can be attached to the user detector pin before going to deep sleep, in order to provide a way to wake up the system.
 	
 	\section{Computer System}
 	The computer system is here implemented in Python, since it allows to simply create user interfaces and serial communication.\newline

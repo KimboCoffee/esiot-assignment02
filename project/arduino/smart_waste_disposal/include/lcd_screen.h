@@ -1,7 +1,7 @@
 #ifndef __LCD_SCREEN__
 #define __LCD_SCREEN__
 
-#include "LiquidCrystal_I2C.h"
+#include <LiquidCrystal_I2C.h>
 #include "screen.h"
 
 class LCDScreen : public Screen {

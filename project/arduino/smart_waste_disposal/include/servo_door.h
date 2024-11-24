@@ -1,7 +1,7 @@
 #ifndef __SERVO_DOOR__
 #define __SERVO_DOOR__
 
-#include <Servo.h>
+#include <ServoTimer2.h>
 #include "door.h"
 
 class ServoDoor : public Door {
@@ -13,7 +13,7 @@ class ServoDoor : public Door {
 
     private:
         void set(int value);
-        Servo *motor;
+        ServoTimer2 *motor;
         int pin;
 };
 

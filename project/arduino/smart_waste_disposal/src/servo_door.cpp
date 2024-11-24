@@ -1,11 +1,12 @@
+#include <Arduino.h>
 #include "servo_door.h"
 
-#define OPEN_FOR_INSERTION 180
-#define CLOSED 90
-#define OPEN_FOR_EMPTYING 0
+#define OPEN_FOR_INSERTION 2250
+#define CLOSED 1500
+#define OPEN_FOR_EMPTYING 750
 
 ServoDoor::ServoDoor(int pin) {
-    this->motor = new Servo();
+    this->motor = new ServoTimer2();
     this->pin = pin;
 }
 

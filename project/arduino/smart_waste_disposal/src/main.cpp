@@ -8,6 +8,7 @@
 #include "timer_impl.h"
 #include "sonar_level_gauge.h"
 #include "dummy_task.h"
+#include "coop_r_r_scheduler.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -29,9 +30,9 @@
 #define LCD_ROWS 4
 #define LCD_COLS 20
 
+Scheduler *scheduler;
 DummyTask *t1;
 DummyTask *t2;
-TimerImpl *timer;
 int period;
 
 void setup() {
@@ -39,11 +40,11 @@ void setup() {
   period = 100;
   t1 = new DummyTask(10 * period);
   t2 = new DummyTask(20 * period);
-  timer = new TimerImpl(period);
+  scheduler = new CoopRRScheduler(period);
+  scheduler->bind(t1);
+  scheduler->bind(t2);
 }
 
 void loop() {
-  timer->waitForNextTick();
-  t1->step(period);
-  t2->step(period);
+  scheduler->schedule();
 }

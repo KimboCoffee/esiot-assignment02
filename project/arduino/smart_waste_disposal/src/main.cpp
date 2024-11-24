@@ -5,6 +5,7 @@
 #include "lcd_screen.h"
 #include "pir_user_detector.h"
 #include "servo_door.h"
+#include "timer_impl.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -25,20 +26,20 @@
 #define LCD_COLS 20
 
 Door *door;
+TimerImpl* timer;
 
 void setup() {
   door = new ServoDoor(DOOR);
+  timer = new TimerImpl(1000);
 }
 
 void loop() {
   door->unlock();
   door->openForInsertion();
-  delay(1000);
+  timer->waitForNextTick();
   door->close();
-  delay(1000);
+  timer->waitForNextTick();
   door->openForEmptying();
-  delay(1000);
+  timer->waitForNextTick();
   door->lock();
-  door->close();
-  delay(1000);
 }

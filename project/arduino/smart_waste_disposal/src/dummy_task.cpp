@@ -4,11 +4,14 @@
 DummyTask::DummyTask(long period) {
     this->period = period;
     this->stepCount = 0;
+    this->prevVal = 0;
 }
 
 void DummyTask::step(long schedPeriod) {
     if (schedPeriod * this->stepCount >= this->period) {
         this->stepCount = 0;
-        Serial.println("Action performed !");
+        this->prevVal++;
     } else this->stepCount++;
+    Serial.println(this->prevVal);
+    Serial.println(this->stepCount);
 }

@@ -10,6 +10,7 @@ class DummyTask : public Task {
 
     private:
         long period;
+        int prevVal;
         int stepCount;
 };
 

@@ -17,6 +17,7 @@ void CoopRRScheduler::bind(Task *task) {
 
 void CoopRRScheduler::schedule() {
     timer->waitForNextTick();
+    Serial.println(this->period);
     for (int i=0; i<this->occupation; i++) {
         tasks[i]->step(this->period);
     }

@@ -7,7 +7,6 @@
 #include "servo_door.h"
 #include "timer_impl.h"
 #include "sonar_level_gauge.h"
-#include "dummy_task.h"
 #include "coop_r_r_scheduler.h"
 
 /*analog pins*/
@@ -31,20 +30,8 @@
 #define LCD_COLS 20
 
 Scheduler *scheduler;
-DummyTask *t1;
-DummyTask *t2;
 int period;
 
-void setup() {
-  Serial.begin(9600);
-  period = 100;
-  t1 = new DummyTask(10 * period);
-  t2 = new DummyTask(20 * period);
-  scheduler = new CoopRRScheduler(period);
-  scheduler->bind(t1);
-  scheduler->bind(t2);
-}
+void setup() {}
 
-void loop() {
-  scheduler->schedule();
-}
+void loop() {}

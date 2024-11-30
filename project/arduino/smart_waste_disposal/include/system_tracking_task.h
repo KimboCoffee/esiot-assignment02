@@ -5,7 +5,7 @@
 
 class SystemTrackingTask: public Task {
     public:
-        void step(long schedPeriod);
+        void step(int schedPeriod);
 };
 
 #endif

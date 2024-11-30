@@ -3,7 +3,7 @@
 
 class Task {
     public:
-        virtual void step(long schedPeriod) = 0;
+        virtual void step(int schedPeriod) = 0;
 };
 
 #endif

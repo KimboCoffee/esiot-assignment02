@@ -30,7 +30,7 @@
 #define LCD_COLS 20
 
 Scheduler *scheduler;
-const int period;
+int period;
 
 void setup() {}
 

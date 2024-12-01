@@ -9,6 +9,7 @@
 #include "sonar_level_gauge.h"
 #include "coop_r_r_scheduler.h"
 #include "temp_monitor_task.h"
+#include "level_monitor_task.h"
 #include "system_state_tracker.h"
 
 /*analog pins*/
@@ -32,7 +33,7 @@
 #define LCD_COLS 20
 
 SystemStateTracker *systemTracker;
-TempMonitorTask *tempMonitor;
+LevelMonitorTask *levelMonitor;
 Scheduler *scheduler;
 int period;
 
@@ -41,14 +42,14 @@ void setup() {
     period = 500;
     scheduler = new CoopRRScheduler(period);
     systemTracker = new SystemStateTracker();
-    tempMonitor = new TempMonitorTask(5 * period, systemTracker);
-    scheduler->bind(tempMonitor);
+    levelMonitor = new LevelMonitorTask(5 * period, systemTracker);
+    scheduler->bind(levelMonitor);
 }
 
 void loop() {
     scheduler->schedule();
-    Serial.print("Temp level: ");
-    Serial.println(tempMonitor->getLastMeasure());
+    Serial.print("Filling level: ");
+    Serial.println(levelMonitor->getLastMeasure());
     if (systemTracker->isSystemBlocked()) {
         Serial.println("The system is blocked");
     }

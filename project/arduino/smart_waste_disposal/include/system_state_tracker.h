@@ -21,7 +21,8 @@ class SystemStateTracker{
         SystemStateTracker();
         void restoreSystem(ExceptionSource restoredMonitor);
         void blockSystem(ExceptionSource exceededMonitor);
-        bool isSystemBlocked();
+        bool isTempExceeded();
+        bool isLevelExceeded();
 
     private:
         TempTrackerState tempState;

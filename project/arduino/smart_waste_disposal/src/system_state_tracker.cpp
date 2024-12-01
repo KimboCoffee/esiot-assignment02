@@ -21,8 +21,10 @@ void SystemStateTracker::blockSystem(ExceptionSource exceededMonitor) {
     }
 }
 
-bool SystemStateTracker::isSystemBlocked() {
-    return 
-        (this->tempState == TEMP_EXCEEDED)
-        || (this->levelState == LEVEL_EXCEEDED);
+bool SystemStateTracker::isTempExceeded() {
+    return this->tempState == TEMP_EXCEEDED;
+}
+
+bool SystemStateTracker::isLevelExceeded() {
+    return this->levelState == LEVEL_EXCEEDED;
 }

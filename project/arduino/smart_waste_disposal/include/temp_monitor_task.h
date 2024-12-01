@@ -9,9 +9,9 @@
 #define TEMP_THRESHOLD 30.0
 
 typedef enum {
-    OK,
-    ALERT,
-    NOT_OK
+    TEMP_MONITOR_OK,
+    TEMP_MONITOR_ALERT,
+    TEMP_MONITOR_NOT_OK
 } TempMonitorState;
 
 class TempMonitorTask: public Task {

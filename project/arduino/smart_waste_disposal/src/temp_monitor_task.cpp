@@ -7,7 +7,7 @@
 TempMonitorTask::TempMonitorTask(int period, SystemStateTracker *systemTracker) {
     this->period = period;
     this->schedSteps = 0;
-    this->setState(OK);
+    this->setState(TEMP_MONITOR_OK);
     this->alertSteps = 0;
     this->sensor = new TemperatureSensorImpl(TEMP_SENSOR);
     this->lastMeasure = sensor->getTemp();
@@ -19,18 +19,18 @@ void TempMonitorTask::step(int schedPeriod) {
         this->schedSteps = 0;
         this->lastMeasure = sensor->getTemp();
         
-        if (state != NOT_OK) {
+        if (state != TEMP_MONITOR_NOT_OK) {
             if (this->lastMeasure > TEMP_THRESHOLD) {
-                if (this->state == OK) {
-                    this->setState(ALERT);
-                } else if (this->state == ALERT) {
+                if (this->state == TEMP_MONITOR_OK) {
+                    this->setState(TEMP_MONITOR_ALERT);
+                } else if (this->state == TEMP_MONITOR_ALERT) {
                     this->alertSteps++;
                     if (this->alertSteps * this->period >= ALERT_TIME_THRESHOLD) {
-                        this->setState(NOT_OK);
+                        this->setState(TEMP_MONITOR_NOT_OK);
                     }
                 }
-            } else if (this->state == ALERT) {
-                this->setState(OK);
+            } else if (this->state == TEMP_MONITOR_ALERT) {
+                this->setState(TEMP_MONITOR_OK);
             }
         }
     }
@@ -43,15 +43,15 @@ float TempMonitorTask::getLastMeasure() {
 
 void TempMonitorTask::setState(TempMonitorState state) {
     switch (state) {
-        case OK:
+        case TEMP_MONITOR_OK:
             this->systemTracker->restoreSystem(TEMP_MONITOR);
             break;
 
-        case NOT_OK:
+        case TEMP_MONITOR_NOT_OK:
             this->systemTracker->blockSystem(TEMP_MONITOR);
             break;
             
-        case ALERT:
+        case TEMP_MONITOR_ALERT:
             this->alertSteps = 0;
             break;
     }

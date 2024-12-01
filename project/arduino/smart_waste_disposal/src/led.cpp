@@ -7,12 +7,17 @@
 Led::Led(int pin) {
     this->pin = pin;
     this->state = OFF;
-    pinMode(pin, OUTPUT);
+    pinMode(this->pin, OUTPUT);
 }
 
-void Led::turn() {
-    this->state = !this->state;
-    digitalWrite(this->pin, this->state);
+void Led::turnOn() {
+    this->state = ON;
+    pinMode(this->pin, this->state);
+}
+
+void Led::turnOff() {
+    this->state = OFF;
+    pinMode(this->pin, this->state);
 }
 
 bool Led::isOn() {

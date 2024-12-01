@@ -3,7 +3,8 @@
 
 class Light {
     public:
-        virtual void turn() = 0;
+        virtual void turnOn() = 0;
+        virtual void turnOff() = 0;
         virtual bool isOn() = 0;
 };
 

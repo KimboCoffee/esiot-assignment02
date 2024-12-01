@@ -33,9 +33,8 @@ void TempMonitorTask::step(int schedPeriod) {
                 this->setState(OK);
             }
         }
-    } else {
-        this->schedSteps++;
     }
+    this->schedSteps++;
 }
 
 float TempMonitorTask::getLastMeasure() {

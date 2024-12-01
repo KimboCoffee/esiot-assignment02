@@ -18,10 +18,10 @@ class TempMonitorTask: public Task {
     public:
         TempMonitorTask(int period, SystemStateTracker *systemTracker);
         void step(int schedPeriod);
-        float getLastMeasure();
         void setState(TempMonitorState state);
 
     private:
+        void measure();
         int period;
         TempMonitorState state;
         TemperatureSensor *sensor;

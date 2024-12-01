@@ -10,14 +10,14 @@ TempMonitorTask::TempMonitorTask(int period, SystemStateTracker *systemTracker) 
     this->setState(TEMP_MONITOR_OK);
     this->alertSteps = 0;
     this->sensor = new TemperatureSensorImpl(TEMP_SENSOR);
-    this->lastMeasure = sensor->getTemp();
+    this->measure();
     this->systemTracker = systemTracker;
 }
 
 void TempMonitorTask::step(int schedPeriod) {
     if (this->schedSteps * schedPeriod >= this->period) {
         this->schedSteps = 0;
-        this->lastMeasure = sensor->getTemp();
+        this->measure();
         
         if (state != TEMP_MONITOR_NOT_OK) {
             if (this->lastMeasure > TEMP_THRESHOLD) {
@@ -37,10 +37,6 @@ void TempMonitorTask::step(int schedPeriod) {
     this->schedSteps++;
 }
 
-float TempMonitorTask::getLastMeasure() {
-    return this->lastMeasure;
-}
-
 void TempMonitorTask::setState(TempMonitorState state) {
     switch (state) {
         case TEMP_MONITOR_OK:
@@ -56,4 +52,9 @@ void TempMonitorTask::setState(TempMonitorState state) {
             break;
     }
     this->state = state;
+}
+
+void TempMonitorTask::measure() {
+    this->lastMeasure = this->sensor->getTemp();
+    this->systemTracker->setTemp(this->lastMeasure);
 }

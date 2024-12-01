@@ -14,13 +14,13 @@ class LevelMonitorTask: public Task {
     public:
         LevelMonitorTask(int period, SystemStateTracker *systemTracker);
         void step(int schedPeriod);
-        float getLastMeasure();
         void setState(LevelMonitorState state);
 
     private:
+        void measure();
         int period;
         SystemStateTracker *systemTracker;
-        LevelGauge *levelGauge;
+        LevelGauge *sensor;
         float lastMeasure;
         int schedSteps;
         LevelMonitorState state;

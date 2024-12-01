@@ -8,6 +8,8 @@
 #include "timer_impl.h"
 #include "sonar_level_gauge.h"
 #include "coop_r_r_scheduler.h"
+#include "temp_monitor_task.h"
+#include "system_state_tracker.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -29,9 +31,25 @@
 #define LCD_ROWS 4
 #define LCD_COLS 20
 
+SystemStateTracker *systemTracker;
+TempMonitorTask *tempMonitor;
 Scheduler *scheduler;
 int period;
 
-void setup() {}
+void setup() {
+    Serial.begin(9600);
+    period = 500;
+    scheduler = new CoopRRScheduler(period);
+    systemTracker = new SystemStateTracker();
+    tempMonitor = new TempMonitorTask(5 * period, systemTracker);
+    scheduler->bind(tempMonitor);
+}
 
-void loop() {}
+void loop() {
+    scheduler->schedule();
+    Serial.print("Temp level: ");
+    Serial.println(tempMonitor->getLastMeasure());
+    if (systemTracker->isSystemBlocked()) {
+        Serial.println("The system is blocked");
+    }
+}

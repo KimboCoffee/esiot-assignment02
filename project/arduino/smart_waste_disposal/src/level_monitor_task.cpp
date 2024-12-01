@@ -16,6 +16,7 @@ LevelMonitorTask::LevelMonitorTask(int period, SystemStateTracker *systemTracker
 
 void LevelMonitorTask::step(int schedPeriod) {
     if (this->schedSteps * schedPeriod >= this->period) {
+        this->schedSteps = 0;
         this->measure();
         if (this->state == LEVEL_MONITOR_OK && this->lastMeasure > LEVEL_THRESHOLD) {
             this->setState(LEVEL_MONITOR_NOT_OK);

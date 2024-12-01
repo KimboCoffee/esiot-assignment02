@@ -11,6 +11,7 @@
 #include "temp_monitor_task.h"
 #include "level_monitor_task.h"
 #include "system_state_tracker.h"
+#include "communication_task.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -34,23 +35,23 @@
 
 SystemStateTracker *systemTracker;
 LevelMonitorTask *levelMonitor;
+TempMonitorTask *tempMonitor;
+CommunicationTask *commTask;
 Scheduler *scheduler;
 int period;
 
 void setup() {
-    Serial.begin(9600);
-    period = 500;
+    period = 1000;
     scheduler = new CoopRRScheduler(period);
     systemTracker = new SystemStateTracker();
     levelMonitor = new LevelMonitorTask(5 * period, systemTracker);
+    tempMonitor = new TempMonitorTask(5 * period, systemTracker);
+    commTask = new CommunicationTask(period, systemTracker, tempMonitor, levelMonitor);
     scheduler->bind(levelMonitor);
+    scheduler->bind(tempMonitor);
+    scheduler->bind(commTask);
 }
 
 void loop() {
     scheduler->schedule();
-    Serial.print("Filling level: ");
-    Serial.println(levelMonitor->getLastMeasure());
-    if (systemTracker->isSystemBlocked()) {
-        Serial.println("The system is blocked");
-    }
 }

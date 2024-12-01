@@ -23,10 +23,16 @@ class SystemStateTracker{
         void blockSystem(ExceptionSource exceededMonitor);
         bool isTempExceeded();
         bool isLevelExceeded();
+        void setTemp(float temp);
+        float getTemp();
+        void setLevel(float level);
+        float getLevel();
 
     private:
         TempTrackerState tempState;
+        float temp;
         LevelTrackerState levelState;
+        float level;
 };
 
 #endif

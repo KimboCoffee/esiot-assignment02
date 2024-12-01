@@ -28,3 +28,19 @@ bool SystemStateTracker::isTempExceeded() {
 bool SystemStateTracker::isLevelExceeded() {
     return this->levelState == LEVEL_EXCEEDED;
 }
+
+void SystemStateTracker::setTemp(float temp) {
+    this->temp = temp;
+}
+
+float SystemStateTracker::getTemp() {
+    return this->temp;
+}
+
+void SystemStateTracker::setLevel(float level) {
+    this->level = level;
+}
+
+float SystemStateTracker::getLevel() {
+    return this->level;
+}

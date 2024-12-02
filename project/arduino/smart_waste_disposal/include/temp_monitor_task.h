@@ -5,9 +5,6 @@
 #include "temperature_sensor.h"
 #include "system_state_tracker.h"
 
-#define ALERT_TIME_THRESHOLD 1000
-#define TEMP_THRESHOLD 30.0
-
 typedef enum {
     TEMP_MONITOR_OK,
     TEMP_MONITOR_ALERT,

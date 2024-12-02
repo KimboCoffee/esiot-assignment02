@@ -35,6 +35,7 @@ class ContainerHandlerTask: public Task {
         int openSteps;
         int closingSteps;
         int emptyingSteps;
+        int doorLockerSteps;
         ContainerHandlerState state;
         Door *door;
         Button *openButton;

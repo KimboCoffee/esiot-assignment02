@@ -12,6 +12,7 @@
 #define MAX_OPENING_TIME 10000
 #define CLOSING_TIME 2000
 #define EMPTYING_TIME 5000
+#define DOOR_LOCK_TIME 200
 
 /*digital pins*/
 #define GREEN_LED 12
@@ -50,6 +51,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
         this->schedSteps = 0;
         switch (this->state) {
             case CONTAINER_ACCEPTING_WASTE:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->noUserSteps++;
                 if (this->systemTracker->isTempExceeded()) {
                     this->setState(CONTAINER_TEMP_EXCEEDED);
@@ -63,6 +68,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 break;
 
             case CONTAINER_OPEN:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->openSteps++;
                 if (this->systemTracker->isTempExceeded()) {
                     this->setState(CONTAINER_TEMP_EXCEEDED);
@@ -74,6 +83,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 break;
 
             case CONTAINER_CLOSING:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->closingSteps++;
                 if (this->systemTracker->isTempExceeded()) {
                     this->setState(CONTAINER_TEMP_EXCEEDED);
@@ -88,6 +101,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 break;
 
             case CONTAINER_TEMP_EXCEEDED:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->noUserSteps++;
                 if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
                     this->setState(CONTAINER_DEEP_SLEEP_NONWORKING);
@@ -97,6 +114,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 break;
 
             case CONTAINER_LEVEL_EXCEEDED:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->noUserSteps++;
                 if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
                     this->setState(CONTAINER_DEEP_SLEEP_NONWORKING);
@@ -106,6 +127,10 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 break;
 
             case CONTAINER_EMPTYING:
+                this->doorLockerSteps++;
+                if (this->doorLockerSteps * this->period >= DOOR_LOCK_TIME) {
+                    this->door->lock();
+                }
                 this->emptyingSteps++;
                 if (this->emptyingSteps * this->period >= EMPTYING_TIME) {
                     if (this->systemTracker->isTempExceeded()) {
@@ -137,6 +162,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->redLight->turnOff();
             this->greenLight->turnOn();
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->close();
             this->userScreen->clear();
             this->userScreen->println(1, "Press Open");
@@ -146,6 +172,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
         case CONTAINER_OPEN:
             this->openSteps = 0;
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->openForInsertion();
             this->userScreen->clear();
             this->userScreen->println(1, "Press close");
@@ -155,6 +182,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
         case CONTAINER_CLOSING:
             this->closingSteps = 0;
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->close();
             this->userScreen->clear();
             this->userScreen->println(1, "Waste received");
@@ -169,6 +197,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
         case CONTAINER_TEMP_EXCEEDED:
             this->noUserSteps = 0;
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->close();
             this->greenLight->turnOff();
             this->redLight->turnOn();
@@ -180,6 +209,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
         case CONTAINER_LEVEL_EXCEEDED:
             this->noUserSteps = 0;
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->close();
             this->greenLight->turnOff();
             this->redLight->turnOn();
@@ -191,6 +221,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
         case CONTAINER_EMPTYING:
             this->emptyingSteps = 0;
             this->door->unlock();
+            this->doorLockerSteps = 0;
             this->door->openForEmptying();
             this->userScreen->clear();
             this->userScreen->println(1, "Emptying container");

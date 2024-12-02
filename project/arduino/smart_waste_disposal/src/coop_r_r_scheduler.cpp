@@ -1,7 +1,5 @@
 #include "coop_r_r_scheduler.h"
 
-#define NO_PERIOD -1
-
 CoopRRScheduler::CoopRRScheduler(long period) {
     this->period = period;
     this->occupation = 0;

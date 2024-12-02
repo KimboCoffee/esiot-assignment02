@@ -9,6 +9,7 @@ class LCDScreen : public Screen {
         LCDScreen(int address, int rows, int cols);
         void turnOn();
         void turnOff();
+        void clear();
         void println(int row, String msg);
 
     private:

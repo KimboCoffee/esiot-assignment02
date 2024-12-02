@@ -14,7 +14,7 @@ void LCDScreen::turnOff() {
     this->lcd->noBacklight();
 }
 
-void LCDScreen::println(int row, char* msg) {
+void LCDScreen::println(int row, String msg) {
     this->lcd->clear();
     this->lcd->setCursor(0, row);
     this->lcd->print(msg);

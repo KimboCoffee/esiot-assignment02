@@ -9,7 +9,7 @@ class LCDScreen : public Screen {
         LCDScreen(int address, int rows, int cols);
         void turnOn();
         void turnOff();
-        void println(int row, char* msg);
+        void println(int row, String msg);
 
     private:
         LiquidCrystal_I2C *lcd;

@@ -3,7 +3,7 @@
 #include "temperature_sensor_impl.h"
 
 #define ALERT_TIME_THRESHOLD 10000
-#define TEMP_THRESHOLD 30.0
+#define TEMP_THRESHOLD 35.0
 #define TEMP_SENSOR A0
 
 TempMonitorTask::TempMonitorTask(int period, SystemStateTracker *systemTracker) {

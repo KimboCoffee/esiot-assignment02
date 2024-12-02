@@ -48,27 +48,79 @@ void ContainerHandlerTask::step(int schedPeriod) {
     if (this->schedSteps * schedPeriod >= this->period) {
         switch (this->state) {
             case CONTAINER_ACCEPTING_WASTE:
+                this->noUserSteps++;
+                if (this->systemTracker->isTempExceeded()) {
+                    this->setState(CONTAINER_TEMP_EXCEEDED);
+                } else if (this->systemTracker->isLevelExceeded()) {
+                    this->setState(CONTAINER_LEVEL_EXCEEDED);
+                } else if (this->openButton->isPressed()) {
+                    this->setState(CONTAINER_OPEN);
+                } else if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
+                    this->setState(CONTAINER_DEEP_SLEEP_WORKING);
+                }
                 break;
 
             case CONTAINER_OPEN:
+                this->openSteps++;
+                if (this->systemTracker->isTempExceeded()) {
+                    this->setState(CONTAINER_TEMP_EXCEEDED);
+                } else if (this->systemTracker->isLevelExceeded()) {
+                    this->setState(CONTAINER_LEVEL_EXCEEDED);
+                } else if (this->closeButton-> isPressed() || this->openSteps * this->period >= MAX_OPENING_TIME) {
+                    this->setState(CONTAINER_CLOSING);
+                }
                 break;
 
             case CONTAINER_CLOSING:
+                this->closingSteps++;
+                if (this->systemTracker->isTempExceeded()) {
+                    this->setState(CONTAINER_TEMP_EXCEEDED);
+                } else if (this->closingSteps * this->period >= CLOSING_TIME) {
+                        this->setState(CONTAINER_ACCEPTING_WASTE);
+                }
                 break;
 
             case CONTAINER_DEEP_SLEEP_WORKING:
+                detachInterrupt(digitalPinToInterrupt(USER_DETECTOR));
+                this->setState(CONTAINER_ACCEPTING_WASTE);
                 break;
 
             case CONTAINER_TEMP_EXCEEDED:
+                this->noUserSteps++;
+                if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
+                    this->setState(CONTAINER_DEEP_SLEEP_NONWORKING);
+                } else if (!this->systemTracker->isTempExceeded()) {
+                    this->setState(CONTAINER_ACCEPTING_WASTE);
+                }
                 break;
 
             case CONTAINER_LEVEL_EXCEEDED:
+                this->noUserSteps++;
+                if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
+                    this->setState(CONTAINER_DEEP_SLEEP_NONWORKING);
+                } else if (!this->systemTracker->isLevelExceeded()) {
+                    this->setState(CONTAINER_ACCEPTING_WASTE);
+                }
                 break;
 
             case CONTAINER_EMPTYING:
+                this->emptyingSteps++;
+                if (this->emptyingSteps * this->period >= EMPTYING_TIME) {
+                    if (this->systemTracker->isTempExceeded()) {
+                        this->setState(CONTAINER_TEMP_EXCEEDED);
+                    } else {
+                        this->setState(CONTAINER_ACCEPTING_WASTE);
+                    }
+                }
                 break;
 
             case CONTAINER_DEEP_SLEEP_NONWORKING:
+                detachInterrupt(digitalPinToInterrupt(USER_DETECTOR));
+                if (this->systemTracker->isLevelExceeded()) {
+                    this->setState(CONTAINER_LEVEL_EXCEEDED);
+                } else {
+                    this->setState(CONTAINER_TEMP_EXCEEDED);
+                }
                 break;
         }
     }
@@ -79,6 +131,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
     this->state = state;
     switch(state) {
         case CONTAINER_ACCEPTING_WASTE:
+            this->noUserSteps = 0;
             this->redLight->turnOff();
             this->greenLight->turnOn();
             this->door->unlock();
@@ -89,6 +142,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             break;
 
         case CONTAINER_OPEN:
+            this->openSteps = 0;
             this->door->unlock();
             this->door->openForInsertion();
             this->door->lock();
@@ -97,6 +151,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             break;
 
         case CONTAINER_CLOSING:
+            this->closingSteps = 0;
             this->door->unlock();
             this->door->close();
             this->door->lock();
@@ -104,10 +159,12 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             break;
 
         case CONTAINER_DEEP_SLEEP_WORKING:
+            this->userScreen->turnOff();
             this->goToSleep();
             break;
 
         case CONTAINER_TEMP_EXCEEDED:
+            this->noUserSteps = 0;
             this->door->unlock();
             this->door->close();
             this->door->lock();
@@ -118,6 +175,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             break;
 
         case CONTAINER_LEVEL_EXCEEDED:
+            this->noUserSteps = 0;
             this->door->unlock();
             this->door->close();
             this->door->lock();
@@ -128,12 +186,14 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             break;
 
         case CONTAINER_EMPTYING:
+            this->emptyingSteps = 0;
             this->door->unlock();
             this->door->openForEmptying();
             this->door->lock();
             break;
 
         case CONTAINER_DEEP_SLEEP_NONWORKING:
+            this->userScreen->turnOff();
             this->goToSleep();
             break;
     }

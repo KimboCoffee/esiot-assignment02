@@ -33,6 +33,8 @@ class ContainerHandlerTask: public Task {
         int schedSteps;
         int noUserSteps;
         int openSteps;
+        int closingSteps;
+        int emptyingSteps;
         ContainerHandlerState state;
         Door *door;
         Button *openButton;

@@ -1,17 +1,10 @@
 #include <Arduino.h>
-#include "temperature_sensor_impl.h"
-#include "led.h"
-#include "button_impl.h"
-#include "lcd_screen.h"
-#include "pir_user_detector.h"
-#include "servo_door.h"
-#include "timer_impl.h"
-#include "sonar_level_gauge.h"
 #include "coop_r_r_scheduler.h"
 #include "temp_monitor_task.h"
 #include "level_monitor_task.h"
 #include "system_state_tracker.h"
 #include "communication_task.h"
+#include "container_handler_task.h"
 
 /*analog pins*/
 #define TEMP_SENSOR A0
@@ -37,19 +30,22 @@ SystemStateTracker *systemTracker;
 LevelMonitorTask *levelMonitor;
 TempMonitorTask *tempMonitor;
 CommunicationTask *commTask;
+ContainerHandlerTask *containerHandler;
 Scheduler *scheduler;
 int period;
 
 void setup() {
-    period = 1000;
+    period = 100;
     scheduler = new CoopRRScheduler(period);
     systemTracker = new SystemStateTracker();
-    levelMonitor = new LevelMonitorTask(5 * period, systemTracker);
-    tempMonitor = new TempMonitorTask(5 * period, systemTracker);
-    commTask = new CommunicationTask(period, systemTracker, tempMonitor, levelMonitor);
+    levelMonitor = new LevelMonitorTask(10 * period, systemTracker);
+    tempMonitor = new TempMonitorTask(10 * period, systemTracker);
+    commTask = new CommunicationTask(5 * period, systemTracker, tempMonitor, levelMonitor);
+    containerHandler = new ContainerHandlerTask(period, systemTracker);
     scheduler->bind(levelMonitor);
     scheduler->bind(tempMonitor);
     scheduler->bind(commTask);
+    scheduler->bind(containerHandler);
 }
 
 void loop() {

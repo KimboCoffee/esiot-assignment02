@@ -12,12 +12,12 @@ Led::Led(int pin) {
 
 void Led::turnOn() {
     this->state = ON;
-    pinMode(this->pin, this->state);
+    pinMode(this->pin, HIGH);
 }
 
 void Led::turnOff() {
     this->state = OFF;
-    pinMode(this->pin, this->state);
+    pinMode(this->pin, LOW);
 }
 
 bool Led::isOn() {

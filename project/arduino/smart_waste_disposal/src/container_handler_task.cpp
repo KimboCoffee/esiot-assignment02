@@ -38,6 +38,7 @@ ContainerHandlerTask::ContainerHandlerTask(int period, SystemStateTracker *syste
     this->openButton = new ButtonImpl(OPEN_BUTTON);
     this->closeButton = new ButtonImpl(CLOSE_BUTTON);
     this->userScreen = new LCDScreen(LCD_ADDRESS, LCD_ROWS, LCD_COLS);
+    this->userScreen->turnOn();
     this->greenLight = new Led(GREEN_LED);
     this->redLight = new Led(RED_LED);
     this->userDetector = new PIRUserDetector(USER_DETECTOR);
@@ -46,6 +47,7 @@ ContainerHandlerTask::ContainerHandlerTask(int period, SystemStateTracker *syste
 
 void ContainerHandlerTask::step(int schedPeriod) {
     if (this->schedSteps * schedPeriod >= this->period) {
+        this->schedSteps = 0;
         switch (this->state) {
             case CONTAINER_ACCEPTING_WASTE:
                 this->noUserSteps++;
@@ -99,7 +101,7 @@ void ContainerHandlerTask::step(int schedPeriod) {
                 if (this->noUserSteps * this->period >= NO_USER_TIME_LIMIT) {
                     this->setState(CONTAINER_DEEP_SLEEP_NONWORKING);
                 } else if (!this->systemTracker->isLevelExceeded()) {
-                    this->setState(CONTAINER_ACCEPTING_WASTE);
+                    this->setState(CONTAINER_EMPTYING);
                 }
                 break;
 
@@ -136,7 +138,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->greenLight->turnOn();
             this->door->unlock();
             this->door->close();
-            this->door->lock();
+            this->userScreen->clear();
             this->userScreen->println(1, "Press Open");
             this->userScreen->println(2, "to enter waste");
             break;
@@ -145,7 +147,7 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->openSteps = 0;
             this->door->unlock();
             this->door->openForInsertion();
-            this->door->lock();
+            this->userScreen->clear();
             this->userScreen->println(1, "Press close");
             this->userScreen->println(2, "when done");
             break;
@@ -154,22 +156,23 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->closingSteps = 0;
             this->door->unlock();
             this->door->close();
-            this->door->lock();
+            this->userScreen->clear();
             this->userScreen->println(1, "Waste received");
             break;
 
         case CONTAINER_DEEP_SLEEP_WORKING:
             this->userScreen->turnOff();
             this->goToSleep();
+            this->userScreen->turnOn();
             break;
 
         case CONTAINER_TEMP_EXCEEDED:
             this->noUserSteps = 0;
             this->door->unlock();
             this->door->close();
-            this->door->lock();
             this->greenLight->turnOff();
             this->redLight->turnOn();
+            this->userScreen->clear();
             this->userScreen->println(1, "Problem detected:");
             this->userScreen->println(2, "door is locked");
             break;
@@ -178,9 +181,9 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->noUserSteps = 0;
             this->door->unlock();
             this->door->close();
-            this->door->lock();
             this->greenLight->turnOff();
             this->redLight->turnOn();
+            this->userScreen->clear();
             this->userScreen->println(1, "Container full:");
             this->userScreen->println(2, "door is locked");
             break;
@@ -189,12 +192,14 @@ void ContainerHandlerTask::setState(ContainerHandlerState state) {
             this->emptyingSteps = 0;
             this->door->unlock();
             this->door->openForEmptying();
-            this->door->lock();
+            this->userScreen->clear();
+            this->userScreen->println(1, "Emptying container");
             break;
 
         case CONTAINER_DEEP_SLEEP_NONWORKING:
             this->userScreen->turnOff();
             this->goToSleep();
+            this->userScreen->turnOn();
             break;
     }
 }

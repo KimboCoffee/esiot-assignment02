@@ -73,7 +73,7 @@
 	
 	\subsection{Smart Waste Disposal Control Unit}
 	This is the core unit of the device, being the one that directly controls and regulates the behavior of the entire system.\newline
-	The main constraint in terms of technologies is that it has to be programmed in C++ with the Wiring framework, since it will run on an Arduino UNO Board. Trying to dissect the system's behavior, it can easily be decomposed in three main Finite States Machines that run in parallel.
+	The main constraint in terms of technologies is that it has to be programmed in C++ with the Wiring framework, since it will run on an Arduino UNO Board. Trying to dissect the system's behavior, it can easily be decomposed in three main Tasks - here represented in their behavior exploiting state charts - that run in parallel.
 	
 	\subsubsection{Temperature Monitor FSM}
 	The temperature monitor, with its behavior, can be modeled as a Finite State Machine. It behaves regardless of the state in which the other parts of the systems are, signaling whenever an exception happens.

@@ -119,6 +119,8 @@
 		\caption{\href{https://www.tinkercad.com/things/1OaxE8QuWbw-esiot-assignment02?sharecode=9QQajaw8It3u4rzvy1XqA17RKAIlDJlUtWD6_dBJsmI}{Full circuit in detail}}
 		\label{img:full-circuit}
 	\end{figure}
+	When building the circuit, some aspects regarding specific pin choices has to be made. This because some pins are fixed (such as A4 for SDA and A5 for SCL in I2C communication), or because some devices require specific features (such as interrupts for the user detector). These aspects are discussed in further detail in the software Development analysis.
+	\newline Furthermore, having so many devices connected to the board, which offers a single 5V output line, means that power consumption has to be taken into account. For example, the servomotor, which requires a lot of electricity to work, has to be detached whenever it's not in use.
 	
 	\section{Embedded System}
 	The software for the Embedded System is developed with the \href{https://wiring.org.co/}{Wiring framework}, which is based on C++ and allows to exploit all the features of the language adding some high level interfaces for hardware interaction purposes. This framework, based on a super loop architecture, very well fits Embedded Systems programming, since they require to run non-stop. Furthermore, being based on C++, it allows the programmer to exploit Object Oriented Programming, that very effectively represents this kind of systems, in which different devices work together and exchange messages.

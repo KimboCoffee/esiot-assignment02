@@ -142,13 +142,13 @@
 	
 	\section{Computer System}
 	The computer system is here implemented in Python, since it allows to simply create user interfaces and serial communication.\newline
-	Particularly, \href{https://docs.python.org/3/library/tkinter.html}{the tkinter interface package} is used for producing the user interface. This package serves as an interface for the Tcl/Tk GUI toolkit, and simplifies the development process behind GUIs.\newline
+	Particularly, \href{https://docs.python.org/3/library/tkinter.html}{the tkinter interface package} is used for producing the user interface. This package simplifies the development process behind GUIs offering a high-level interface for the Tcl/Tk GUI Toolkit.\newline
 	Serial communication, on the other hand, is achieved thanks to \href{https://pyserial.readthedocs.io/en/latest/}{the serial module of the pyserial library}. This module tackles the low-level parts of the serial communication implementation, and allows the programmer to deal with higher level matters.\newline
 	From an implementing standpoint, the System consists on three main modules: a Message Handler, the App and the View. The App controls the application's flow, updating each period the View to correctly represent the data read by the Message Handler.
 	\paragraph{Communication protocol} To ensure effective communication, a simple protocol is established between the two systems.
 	\newline From Arduino towards the computer, each message contains 5 lines. They represent respectively the current scheduler period, the measured temperature, the eventual occurring of a temperature exception, the current waste level and the eventual occurring of a level exception.
 	\newline From the computer towards Arduino, communication is much simpler. Since it has just two possible values to signal, a byte is enough. In particular, 1 is coded to represent the temperature restoring, and 2 is coded to represent the emptying command.
-	\newline \b{NOTE:} to synchronize communication, the PC clears its input buffer before starting to read values, so that it won't read older values still living in memory, but reads only the real-time values written by the board.
+	\newline Synchronization between the two systems could have been problematic, but Arduino UNO automatically reboots whenever a new device is connected to its serial line. This means that the computer is sure to be reading real-time data produced by the board, rather than some old values still saved in a buffer. Anyways, the serial line is cleared at system startup so to be sure that there are no old values stored in memory that could affect the reads.
 	
 	\chapter{System Demonstration}
 	\href{https://drive.google.com/file/d/1WgMCrVB_kaROzejK9e0wBk0y-nm3afkx/view?usp=sharing}{This is a simple demonstration of the system.}

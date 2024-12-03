@@ -113,6 +113,12 @@
 	The development solutions can be naturally split in the two separate domains that have to be realized: the embedded system itself and the Operator Dashboard Application, called here the Computer System since it runs on a general purpose PC.
 	
 	\section{Hardware Devices}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{img/circuit-detail.png}
+		\caption{\href{https://www.tinkercad.com/things/1OaxE8QuWbw-esiot-assignment02?sharecode=9QQajaw8It3u4rzvy1XqA17RKAIlDJlUtWD6_dBJsmI}{Full circuit in detail}}
+		\label{img:full-circuit}
+	\end{figure}
 	
 	\section{Embedded System}
 	The software for the Embedded System is developed with the \href{https://wiring.org.co/}{Wiring framework}, which is based on C++ and allows to exploit all the features of the language adding some high level interfaces for hardware interaction purposes. This framework, based on a super loop architecture, very well fits Embedded Systems programming, since they require to run non-stop. Furthermore, being based on C++, it allows the programmer to exploit Object Oriented Programming, that very effectively represents this kind of systems, in which different devices work together and exchange messages.
@@ -143,5 +149,6 @@
 	\newline \b{NOTE:} to synchronize communication, the PC clears its input buffer before starting to read values, so that it won't read older values still living in memory, but reads only the real-time values written by the board.
 	
 	\chapter{System Demonstration}
+	\href{https://drive.google.com/file/d/1WgMCrVB_kaROzejK9e0wBk0y-nm3afkx/view?usp=sharing}{This is a simple demonstration of the system.}
 	
 \end{document}
